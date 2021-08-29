@@ -10,13 +10,13 @@ export class AppService {
   constructor(private http: HttpClient) { }
 
   getDashboard_data() {
-    return this.http.get('/assets/pessengerDetails.json');
+    return this.http.get<any>('/assets/pessengerDetails.json');
   }
   // editDashboard_data(data: any) {
   //   return this.http.post('/assets/pessengerDetails.json', data);
   // }
   getFlightDetails() {
-    return this.http.get('/assets/FlightDetails.json');
+    return this.http.get<any>('/assets/FlightDetails.json');
   }
 
   getFlight(){
