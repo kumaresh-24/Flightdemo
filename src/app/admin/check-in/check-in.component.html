@@ -22,9 +22,9 @@
           </a>
         </td>
         <td>
-          <button *ngIf="passenger.seatNumber != ''" class="btn btn-primary" (click)="bookseat(passenger)">Change Seat</button>
+          <button *ngIf="passenger.seatNumber != ''" class="btn btn-primary btn-sm" (click)="bookseat(passenger)">Change Seat</button>
 
-          <button *ngIf="passenger.seatNumber == ''" class="btn btn-primary" (click)="bookseat(passenger)">Check-In</button>
+          <button *ngIf="passenger.seatNumber == ''" class="btn btn-primary btn-sm" (click)="bookseat(passenger)">Check-In</button>
         </td>
       </tr>
   </tbody>
