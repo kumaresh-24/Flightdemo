@@ -1,0 +1,36 @@
+<div class="container">
+  <div class="table-title">
+    <div class="row">
+      <div class="col-sm-10">
+        <h3>Flight Details</h3>
+      </div>
+
+    </div>
+  </div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Flight Number</th>
+        <th>Airline Name</th>
+        <th>Source</th>
+        <th>Destination</th>
+        <th>Departure Time</th>
+        <th>Arrival Time</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+
+        <tr *ngFor="let flight of allFlights?.Flight" >
+          <td>{{flight.FlightNumber}}</td>
+          <td>{{flight.Airlines}}</td>
+          <td>​​​​​​​​{{flight.Source}}</td>
+         <td>{{flight.Destination}}</td>
+         <td>{{flight.DepartureTime}}</td>
+          <td>{{flight.ArrivalTime}}</td>
+          <td (click)="showFlight(flight)"><button class="btn btn-primary">View Flight</button> </td>
+        </tr>
+    </tbody>
+  </table>
+
+</div>

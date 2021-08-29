@@ -1,0 +1,57 @@
+<div class="container">
+  <div class="row">
+
+    <div class="col-lg-6">
+      <div class="plane">
+        <div class="cockpit">
+          <h1>{{flightdetails?.FlightNumber}} Seat Selection</h1>
+        </div>
+        <div class="exit exit--front fuselage"></div>
+        <ol class="cabin fuselage">
+          <li class="row row--1">
+            <ol class="seats" type="A" *ngFor="let seats of flightSeatsSequence; let i = index;">
+              <li class="seat" *ngFor="let seat of seats" >
+                <input type="checkbox" id="{{seat}}" [ngClass]="{'infantpassenger': checkPassengerType(seat)=='Infant',
+                'wheelchairpassenger': checkPassengerType(seat)=='Wheel-chair', 'normalpassenger': checkPassengerType(seat)=='None'}" />
+                <label for="seat">{{seat}}</label>
+              </li>
+            </ol>
+          </li>
+        </ol>
+        <div class="exit exit--back fuselage"></div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <table style="margin-top: 300px;">
+        <tr>
+          <td>Flight Number</td>
+          <td>:</td>
+          <td>{{flightdetails?.FlightNumber}}</td>
+        </tr>
+        <tr>
+          <td>Source</td>
+          <td>:</td>
+          <td>{{flightdetails?.Source}}</td>
+        </tr>
+        <tr>
+          <td>Destination</td>
+          <td>:</td>
+          <td>{{flightdetails?.Destination}}</td>
+        </tr>
+        <tr>
+          <td>Airlines</td>
+          <td>:</td>
+          <td>{{flightdetails?.Airlines}}</td>
+        </tr>
+
+
+
+
+      </table>
+      <button class="btn btn-primary" routerLink="/check-in">View Passengers List</button>
+    </div>
+  </div>
+</div>
+
+
+

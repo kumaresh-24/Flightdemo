@@ -1,0 +1,52 @@
+{
+  "Flight" : [
+    {
+      "Source" : "MAA",
+      "Destination" : "BOM",
+      "Airlines" : "Air Asia",
+      "FlightNumber" : "FT005",
+      "DepartureTime" : "06.20AM",
+      "ArrivalTime" : "08.15AM"
+    },
+    {
+      "Source" : "MAA",
+      "Destination" : "BOM",
+      "Airlines" : "Vistara",
+      "FlightNumber" : "CB211",
+      "DepartureTime" : "06.20AM",
+      "ArrivalTime" : "08.15AM"
+    },
+    {
+      "Source" : "MAA",
+      "Destination" : "BOM",
+      "Airlines" : "Indigo",
+      "DepartureTime" : "06.20AM",
+      "ArrivalTime" : "08.15AM",
+      "FlightNumber" : "SP103"
+    },
+    {
+      "Source" : "MAA",
+      "Destination" : "BOM",
+      "Airlines" : "GoIndia",
+      "FlightNumber" : "PS310",
+      "DepartureTime" : "06.20AM",
+      "ArrivalTime" : "08.15AM"
+    },
+    {
+      "Source" : "MAA",
+      "Destination" : "BOM",
+      "Airlines" : "Spicejet",
+      "FlightNumber" : "SS301",
+      "DepartureTime" : "06.20AM",
+      "ArrivalTime" : "08.15AM"
+    },
+    {
+      "Source" : "MAA",
+      "Destination" : "BOM",
+      "Airlines" : "Air India",
+      "FlightNumber" : "AK246",
+      "DepartureTime" : "06.20AM",
+      "ArrivalTime" : "08.15AM"
+    }
+  ]
+}

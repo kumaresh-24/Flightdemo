@@ -1,0 +1,32 @@
+<div class="container">
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Flight Name</th>
+      <th>Seat Number</th>
+      <th>Ancillary Services</th>
+      <th>Address</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr *ngFor="let passenger of passenger_data?.passengers">
+        <td>{{passenger.passengerName}}</td>
+        <td>{{passenger.flightName}}</td>
+        <td>​​​​​​​​{{passenger.seatNumber}}</td>
+       <td>{{passenger.address}}</td>
+        <td>
+          <a>
+            <i class="far fa-edit"></i>
+          </a>
+        </td>
+        <td>
+          <button *ngIf="passenger.seatNumber != ''" class="btn btn-primary" (click)="bookseat(passenger)">Change Seat</button>
+
+          <button *ngIf="passenger.seatNumber == ''" class="btn btn-primary" (click)="bookseat(passenger)">Check-In</button>
+        </td>
+      </tr>
+  </tbody>
+</table>
+</div>

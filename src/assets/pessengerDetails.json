@@ -1,0 +1,11 @@
+
+{
+  "passengers":[
+    {"flightName":"Indigo", "passengerName":"Joe", "seatNumber":"5A", "address":"Bihar", "dob":"02/03/2000", "type": "Infant"},
+    {"flightName":"Air India", "passengerName":"Rob", "seatNumber":"8C", "address":"Mumbai", "dob":"23/10/1998", "type": "Wheel-chair"},
+    {"flightName":"Thai Airways", "passengerName":"Mohan", "seatNumber":"1F", "address":"Telangana", "dob":"13/05/1999", "type": "Infant"},
+    {"flightName":"GoAir", "passengerName":"Yamini", "seatNumber":"6B", "address":"Kerala", "dob":"12/12/2001", "type": "Wheel-chair"},
+    {"flightName":"Vistara", "passengerName":"Tara", "seatNumber":"2E", "address":"Delhi", "dob":"02/04/2005", "type": "None"},
+    {"flightName":"Vistara", "passengerName":"Tara", "seatNumber":"", "address":"Delhi", "dob":"02/04/2005", "type": "None"}
+  ]
+}
