@@ -6,6 +6,9 @@ import { CheckInComponent } from './check-in/check-in.component';
 import { FlightInComponent } from './flight-in/flight-in.component';
 import { AdminRoutingModule } from './admin-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DataTablesModule } from "angular-datatables";
+import { AngularMyDatePickerModule } from 'angular-mydatepicker';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 
 
@@ -15,7 +18,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     AdminRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DataTablesModule,
+    AngularMyDatePickerModule,
+    NgMultiSelectDropDownModule.forRoot()
   ]
 })
 export class AdminModule { }
