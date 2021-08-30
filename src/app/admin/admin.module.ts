@@ -5,6 +5,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { CheckInComponent } from './check-in/check-in.component';
 import { FlightInComponent } from './flight-in/flight-in.component';
 import { AdminRoutingModule } from './admin-routing.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -12,7 +13,9 @@ import { AdminRoutingModule } from './admin-routing.module';
   declarations: [DashboardComponent, CheckInComponent, FlightInComponent],
   imports: [
     CommonModule,
-    AdminRoutingModule
+    AdminRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class AdminModule { }

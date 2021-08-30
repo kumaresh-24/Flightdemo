@@ -2,35 +2,175 @@
   <div class="table-title">
     <div class="row">
       <div class="col-sm-10">
-        <h4><b>Flight Details</b></h4>
+        <h3>Passenger Details</h3>
       </div>
-
+      <div class="col-sm-2">
+        <button type="button" class="btn btn-primary add-new" data-toggle="modal" data-target="#editModal"
+          (click)="addData()"><i class="fa fa-plus"></i> Add New</button>
+      </div>
     </div>
-  </div>
+  </div><br>
   <table class="table table-striped">
     <thead>
       <tr>
-        <th>Flight Number</th>
-        <th>Airline Name</th>
-        <th>Source</th>
-        <th>Destination</th>
-        <th>Departure Time</th>
-        <th>Arrival Time</th>
+        <th>Name</th>
+        <th>Passport Number</th>
+        <th>Date of Birth</th>
+        <th>Flight Name</th>
+        <th>Seat Number</th>
+        <th>Ancillary Services</th>
+        <th>Address</th>
         <th>Action</th>
+        <th></th>
       </tr>
+
+
     </thead>
     <tbody>
 
-        <tr *ngFor="let flight of allFlights" >
-          <td>{{flight.FlightNumber}}</td>
-          <td>{{flight.Airlines}}</td>
-          <td>​​​​​​​​{{flight.Source}}</td>
-         <td>{{flight.Destination}}</td>
-         <td>{{flight.DepartureTime}}</td>
-          <td>{{flight.ArrivalTime}}</td>
-          <td (click)="showFlight(flight)"><button class="btn btn-primary btn-sm">View Flight</button> </td>
+      <ng-container *ngFor="let passenger of passenger_data?.passengers">
+        <tr>
+          <td>{{passenger.passengerName}}</td>
+          <td>{{passenger.passportNumber}}</td>
+          <td>{{passenger.dob}}</td>
+          <td>{{passenger.flightName}}</td>
+          <td>{{passenger.seatNumber}}</td>
+          <td>{{passenger.services}}</td>
+          <td>{{passenger.address}}</td>
+          <td>
+            <a (click)="editData()"><i class="far fa-edit"></i></a>
+          </td>
+          <td>
+            <a (click)="deleteData()"><i class="far fa-trash-alt"></i></a>
+          </td>
         </tr>
+      </ng-container>
     </tbody>
   </table>
 
+</div>
+
+
+<!-- modal for delete -->
+<button type="button" [hidden]="true" class="btn btn-primary text-uppercase" data-toggle="modal"
+  data-target="#deleteModal" #deleteModal>Modal</button>
+
+<div class="modal Product_modal" data-backdrop="static" id="deleteModal" tabindex="-1" role="dialog"
+  aria-labelledby="instructionModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="h5 mb-2 fontt-16B"></h1>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body text-center">
+        <p>Are you sure tou want to delete?</p>
+        <button type="submit" class="btn btn-primary" data-dismiss="modal">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal for edit -->
+<button type="button" [hidden]="true" class="btn btn-primary text-uppercase" data-toggle="modal"
+  data-target="#editModal" #editModal>Modal</button>
+
+<div class="modal Product_modal" data-backdrop="static" id="editModal" tabindex="-1" role="dialog"
+  aria-labelledby="instructionModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="h5 mb-2 fontt-16B">{{Header}}</h1>
+        <button type="button" class="close" data-dismiss="modal" (click)="close()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="editForm">
+          <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label class="vass-label">Name<span style="color: tomato;">*</span></label>
+              <input type="text" class="form-control" formControlName="name" />
+              <div class="validationstyle"
+                *ngIf="!editForm.controls['name'].valid && (editForm.controls['name']?.touched || editForm.controls['name']?.dirty)">
+                <div [hidden]="!editForm.controls['name'].hasError('required')">
+                  Please enter your name
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label class="vass-label">Passport Number: <span style="color: tomato;">*</span></label>
+              <input type="text" class="form-control" formControlName="number" />
+              <div class="validationstyle"
+                *ngIf="!editForm.controls['number'].valid && (editForm.controls['number']?.touched || editForm.controls['number']?.dirty)">
+                <div [hidden]="!editForm.controls['number'].hasError('required')">
+                  Please enter your passport details
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+          <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label class="vass-label">Date of Birth: <span style="color: tomato;">*</span></label>
+              <input type="text" class="form-control" formControlName="dob" />
+              <div class="validationstyle"
+                *ngIf="!editForm.controls['dob'].valid && (editForm.controls['dob']?.touched || editForm.controls['dob']?.dirty)">
+                <div [hidden]="!editForm.controls['dob'].hasError('required')">
+                  Please enter your dob
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label class="vass-label">Address: <span style="color: tomato;">*</span></label>
+              <input type="text" class="form-control" formControlName="address" />
+              <div class="validationstyle"
+                *ngIf="!editForm.controls['address'].valid && (editForm.controls['address']?.touched || editForm.controls['address']?.dirty)">
+                <div [hidden]="!editForm.controls['address'].hasError('required')">
+                  Please select your address
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+         <div class="row">
+          <div class="col-sm-12">
+            <div class="form-group">
+              <label class="vass-label">Ancillary Services: <span style="color: tomato;">*</span></label>
+              <select class="form-control" >
+                <option value="">Select</option>
+                <ng-container *ngFor="let services of AncillaryServices">
+                <option>{{services}}</option>
+                </ng-container>
+                </select>
+              <div class="validationstyle"
+                *ngIf="!editForm.controls['services'].valid && (editForm.controls['services']?.touched || editForm.controls['services']?.dirty)">
+                <div [hidden]="!editForm.controls['services'].hasError('required')">
+                  Select ancillary services
+                </div>
+              </div>
+            </div>
+          </div>
+        </div><br>
+
+
+        <div class="col-sm-12 text-center">
+          <button type="submit"  class="btn btn-primary" (click)="AddorEdit()">{{title}}</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
