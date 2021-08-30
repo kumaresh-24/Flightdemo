@@ -5,9 +5,10 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { FlightInComponent } from './flight-in/flight-in.component';
 
 const routes: Routes = [
-  { path: '', component: DashboardComponent},
+  { path: 'dashboard', component: DashboardComponent},
   { path: 'check-in', component: CheckInComponent},
   { path: 'flight-in', component: FlightInComponent},
+  { path : "" , redirectTo:"/dashboard",pathMatch:"full"}
 ];
 
 @NgModule({

@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AppService } from 'src/app/services/app.service';
-
 @Component({
   selector: 'app-check-in',
   templateUrl: './check-in.component.html',
@@ -9,21 +10,35 @@ import { AppService } from 'src/app/services/app.service';
 export class CheckInComponent implements OnInit {
   passenger_data: any;
 
-  constructor(private service: AppService) { }
+
+
+  @ViewChild("editModal", { static: false }) editModal: ElementRef
+  editForm :FormGroup
+  allFlights: Object;
+
+  constructor(private service: AppService, private fb: FormBuilder, private router: Router) { }
 
   ngOnInit(): void {
-    this.getTable_data()
+    this.editForm = this.fb.group({
+      'name': ['', Validators.required],
+      'services': ['', Validators.required],
+      'address': ['', Validators.required]
+    })
+    this.getFlightDetails();
   }
 
-  getTable_data(){
-    this.service.getDashboard_data().subscribe(data =>{
-      console.log(data);
-      this.passenger_data = data;
+
+
+  getFlightDetails(){
+    this.service.getFlightDetails().subscribe(data => {
+      this.allFlights = data;
+      console.log(this.allFlights)
     })
   }
 
-  bookseat(passenger){
-
+  showFlight(flight){
+    this.service.passFlightDetails(flight);
+    this.router.navigate(['/flight-in'])
   }
 
 }
