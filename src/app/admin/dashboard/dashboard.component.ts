@@ -16,7 +16,7 @@ export class DashboardComponent implements OnInit {
 
   myDpOptions: IAngularMyDpOptions = {
     dateRange: false,
-    dateFormat: 'dd.mm.yyyy'
+    dateFormat: 'dd/mm/yyyy'
     // other options are here...
   };
  
@@ -29,7 +29,7 @@ export class DashboardComponent implements OnInit {
   Header: any;
   AncillaryServices = ["Meals", "Small Meals", "Baggage", "Drinks", "Water", "Perfume", "Snacks", "Pizza", "Chocolates"]
   
-  // selectedItems = [{Id:1,Services: "Meals"},{Id:2,Services:"Small Meals"},{Id:3,Services:"Baggage"}];
+  
   
   dropdownList = [{Id:1,Services: "Meals"},{Id:2,Services:"Small Meals"},{Id:3,Services:"Baggage"},{Id:4,Services:"Drinks"},{Id:5,Services:"Water"},
   {Id:6,Services: "Perfume"},{Id:7,Services: "Snacks"},{Id:8,Services: "Pizza"},{Id:9,Services: "Chocolates"}];
@@ -40,6 +40,12 @@ export class DashboardComponent implements OnInit {
   // flightnumber: any;
   dtOptions: DataTables.Settings = {};
 
+  current_index : any;
+
+  delete_index : any;
+
+  p: number = 1;
+
 
 
 
@@ -47,7 +53,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.dtOptions = {
       pagingType: 'full',
-      pageLength: 4,
+      pageLength: 5,
       processing: true,
     };
 
@@ -55,8 +61,6 @@ export class DashboardComponent implements OnInit {
       singleSelection: false,
       idField: 'Id',
       textField: 'Services',
-      // selectAllText: 'Select All',
-      // unSelectAllText: 'UnSelect All',
       itemsShowLimit: 4,
       allowSearchFilter: true
     };
@@ -81,12 +85,13 @@ export class DashboardComponent implements OnInit {
   changeTable(e) {
     console.log(e)
     this.flightnumber = e
-    this.getTable_data();
+    this.getTable_data()
+      
   }
 
   getTable_data() {
     this.service.getDashboard_data().subscribe(data => {
-      // console.log(data);
+
       this.filteredData = []
       this.passenger_data = data;
       if(this.flightnumber != ''){
@@ -105,18 +110,21 @@ export class DashboardComponent implements OnInit {
     })
   }
 
-  editData(e) {
+  editData(e,i) {
     console.log(e)
     this.Header = "Update Passenger Data"
     this.title = "Edit Passenger"
     this.editModal.nativeElement.click();
+    this.current_index = this.passenger_data.findIndex(x => x.passportNumber == e.passportNumber );
+
+    console.log(this.passenger_data)
     
     this.editForm.patchValue({
 
       'name': e.passengerName,
       'number': e.passportNumber,
       'dob': e.dob,
-      'services':e.services,
+      'services':e.services.split(','),
       'address': e.address
     })
 
@@ -126,19 +134,21 @@ export class DashboardComponent implements OnInit {
     this.title = "Add Passenger"
   }
   AddorEdit() {
+
     if (this.editForm.valid) {
-      console.log(this.editForm)
+      console.log(this.editForm.value)
 
       this.passenger_data.push({"flightName":"Indigo", 
       "passengerName": this.editForm.value.name, 
       "seatNumber":"5A", 
       "address":this.editForm.value.address, 
-      "dob": this.editForm.value.dob, 
+      "dob": this.editForm.value.dob.singleDate.formatted, 
       "passportNumber": this.editForm.value.number, 
-      "services": this.editForm.value.services,
+      "services": this.editForm.value.services.map(x => x.Services).toString(),
       "type": "infant"})
       
-
+      console.log(this.editForm.value.services)
+      alert('Details Added')
       this.editModal.nativeElement.click();
       this.editForm.reset()
     
@@ -152,8 +162,9 @@ export class DashboardComponent implements OnInit {
   close() {
     this.editForm.reset()
   }
-  deleteData() {
+  deleteData(e) {
     this.deleteModal.nativeElement.click();
+    this.delete_index = this.passenger_data.findIndex(x => x.passportNumber == e.passportNumber )
   }
 
   onItemSelect(item: any) {
@@ -162,5 +173,36 @@ export class DashboardComponent implements OnInit {
   onSelectAll(items: any) {
     console.log(items);
   }
+
+  editdata(){
+
+    
+    if (this.editForm.valid) {
+      console.log(this.editForm.value)
+      this.passenger_data[this.current_index].passengerName = this.editForm.value.name
+      this.passenger_data[this.current_index].address=this.editForm.value.address
+      this.passenger_data[this.current_index].dob =  this.editForm.value.dob
+      this.passenger_data[this.current_index].services =  this.editForm.value.services 
+      this.passenger_data[this.current_index].passportNumber =  this.editForm.value.number
+  
+      this.editModal.nativeElement.click()
+      alert('Details Updated')
+      this.editForm.reset()
+    
+
+    } else {
+      for (var landingformvalues in this.editForm.controls) {
+        this.editForm.controls[landingformvalues].markAllAsTouched();
+      }
+    }
+  
+  }
+  
+  deleteuser(){
+    
+    this.filteredData.splice(this.delete_index,1)
+
+  }
+
 }
 

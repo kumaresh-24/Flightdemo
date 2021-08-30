@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DataTablesModule } from "angular-datatables";
 import { AngularMyDatePickerModule } from 'angular-mydatepicker';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 
 
@@ -21,6 +22,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     ReactiveFormsModule,
     DataTablesModule,
     AngularMyDatePickerModule,
+    NgxPaginationModule,
     NgMultiSelectDropDownModule.forRoot()
   ]
 })

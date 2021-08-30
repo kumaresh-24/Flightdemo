@@ -46,6 +46,7 @@ export class FlightInComponent implements OnInit {
     this.service.getDashboard_data().subscribe(data =>{
       console.log(data);
       this.passenger_data = data;
+      console.log(this.passenger_data)
     })
   }
 
@@ -54,7 +55,6 @@ export class FlightInComponent implements OnInit {
   checkPassengerType(seat){
     console.log(seat, this.passenger_data)
     var detailsbasedonseat = this.passenger_data.filter(x=>x.seatNumber == seat)
-    console.log(detailsbasedonseat)
     return detailsbasedonseat[0]?.type;
   }
 

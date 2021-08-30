@@ -12,7 +12,7 @@
             <ol class="seats" type="A" *ngFor="let seats of flightSeatsSequence; let i = index;">
               <li class="seat" *ngFor="let seat of seats" >
                 <input type="checkbox" id="{{seat}}" [ngClass]="{'infantpassenger': checkPassengerType(seat)=='Infant',
-                'wheelchairpassenger': checkPassengerType(seat)=='Wheel-chair', 'normalpassenger': checkPassengerType(seat)=='None'}" />
+                'wheelchairpassenger': checkPassengerType(seat) =='Wheel-chair', 'normalpassenger': checkPassengerType(seat)=='None'}" />
                 <label for="seat">{{seat}}</label>
               </li>
             </ol>

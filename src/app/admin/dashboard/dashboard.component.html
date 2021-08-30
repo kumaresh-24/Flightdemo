@@ -9,7 +9,7 @@
       <select class="form-control" (change)="changeTable($event.target.value)">
 
 
-        <option value="">Select</option>
+        <option value="select">Select</option>
 
 
         <ng-container *ngFor="let flights of passenger_data">
@@ -34,7 +34,7 @@
       </div>
     </div>
   </div><br>
-  <table class="table table-striped" datatable [dtOptions]="dtOptions">
+  <table class="table table-striped">
     <thead>
       <tr>
         <th>Name</th>
@@ -51,7 +51,7 @@
     </thead>
     <tbody>
 
-      <ng-container *ngFor="let passenger of filteredData">
+      <ng-container *ngFor="let passenger of filteredData | paginate: { itemsPerPage: 5, currentPage: p };let i = index">
         <tr>
           <td>{{passenger.passengerName}}</td>
           <td>{{passenger.passportNumber}}</td>
@@ -61,14 +61,16 @@
           <td>{{passenger.services}}</td>
           <td>{{passenger.address}}</td>
           <td>
-            <i class="far fa-edit" (click)="editData(passenger)"></i> &nbsp;
-            <i class="far fa-trash-alt" (click)="deleteData()"></i>
+            <i class="far fa-edit" (click)="editData(passenger,i)"></i> &nbsp;
+            <i class="far fa-trash-alt" (click)="deleteData(passenger)"></i>
           </td>
 
         </tr>
       </ng-container>
     </tbody>
   </table>
+
+  <pagination-controls (pageChange)="p = $event"></pagination-controls>
 
 </div>
 
@@ -87,7 +89,7 @@
       </div>
       <div class="modal-body text-center">
         <p>Are you sure tou want to delete?</p>
-        <button type="submit" class="btn btn-primary" data-dismiss="modal">Delete</button>
+        <button type="submit" class="btn btn-primary" (click) = "deleteuser()" data-dismiss="modal">Delete</button>
       </div>
     </div>
   </div>
@@ -182,9 +184,8 @@
               <div class="form-group">
                 <label class="vass-label">Ancillary Services: <span style="color: tomato;">*</span></label>
 
-                <ng-multiselect-dropdown  [settings]="dropdownSettings"
-                  [data]="dropdownList" formControlName="services" (onSelect)="onItemSelect($event)"
-                  (onSelectAll)="onSelectAll($event)">
+                <ng-multiselect-dropdown [settings]="dropdownSettings" [data]="dropdownList" formControlName="services"
+                  (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
                 </ng-multiselect-dropdown>
 
 
@@ -205,9 +206,15 @@
           </div><br>
 
 
-          <div class="col-sm-12 text-center">
+          <div *ngIf="title == 'Add Passenger';else updatedata" class="col-sm-12 text-center">
             <button type="submit" class="btn btn-primary" (click)="AddorEdit()">{{title}}</button>
           </div>
+          <ng-template #updatedata>
+            <div class="col-sm-12 text-center">
+              <button type="submit" class="btn btn-primary" (click)="editdata()">{{title}}</button>
+            </div>
+          </ng-template>
+
         </form>
       </div>
     </div>
