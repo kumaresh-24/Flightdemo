@@ -28,7 +28,7 @@ export class FlightInComponent implements OnInit {
     // ['15A', '15B', '15C', '15D', '15E', '15F'],
   ]
   flightdetails: any;
-  passenger_data: any={passengers:[]};
+  passenger_data: any[] = [];
 
   constructor(private service: AppService, private router: Router) { }
 
@@ -53,7 +53,7 @@ export class FlightInComponent implements OnInit {
 
   checkPassengerType(seat){
     console.log(seat, this.passenger_data)
-    var detailsbasedonseat = this.passenger_data.passengers.filter(x=>x.seatNumber == seat)
+    var detailsbasedonseat = this.passenger_data.filter(x=>x.seatNumber == seat)
     console.log(detailsbasedonseat)
     return detailsbasedonseat[0]?.type;
   }
