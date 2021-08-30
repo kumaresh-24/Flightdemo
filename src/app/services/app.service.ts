@@ -12,9 +12,7 @@ export class AppService {
   getDashboard_data() {
     return this.http.get<any>('/assets/pessengerDetails.json');
   }
-  // editDashboard_data(data: any) {
-  //   return this.http.post('/assets/pessengerDetails.json', data);
-  // }
+
   getFlightDetails() {
     return this.http.get<any>('/assets/FlightDetails.json');
   }
