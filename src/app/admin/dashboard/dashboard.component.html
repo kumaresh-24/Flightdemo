@@ -5,7 +5,7 @@
         <h3>Passenger Details</h3>
       </div>
       <div class="col-sm-2">
-        <button type="button" class="btn btn-primary add-new" data-toggle="modal" data-target="#editModal"
+        <button type="button" class="btn btn-primary btn-sm add-new" data-toggle="modal" data-target="#editModal"
           (click)="addData()"><i class="fa fa-plus"></i> Add New</button>
       </div>
     </div>
@@ -28,7 +28,7 @@
     </thead>
     <tbody>
 
-      <ng-container *ngFor="let passenger of passenger_data?.passengers">
+      <ng-container *ngFor="let passenger of passenger_data">
         <tr>
           <td>{{passenger.passengerName}}</td>
           <td>{{passenger.passportNumber}}</td>
@@ -38,11 +38,10 @@
           <td>{{passenger.services}}</td>
           <td>{{passenger.address}}</td>
           <td>
-            <a (click)="editData()"><i class="far fa-edit"></i></a>
-          </td>
-          <td>
+            <a (click)="editData()"><i class="far fa-edit"></i></a> &nbsp;
             <a (click)="deleteData()"><i class="far fa-trash-alt"></i></a>
           </td>
+
         </tr>
       </ng-container>
     </tbody>
@@ -149,10 +148,10 @@
           <div class="col-sm-12">
             <div class="form-group">
               <label class="vass-label">Ancillary Services: <span style="color: tomato;">*</span></label>
-              <select class="form-control" >
+              <select formControlName="services" class="form-control" >
                 <option value="">Select</option>
                 <ng-container *ngFor="let services of AncillaryServices">
-                <option>{{services}}</option>
+                <option [value]="services">{{services}}</option>
                 </ng-container>
                 </select>
               <div class="validationstyle"

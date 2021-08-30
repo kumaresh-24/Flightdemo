@@ -13,12 +13,12 @@ export class DashboardComponent implements OnInit {
   passenger_data: any;
   @ViewChild("editModal", { static: false }) editModal: ElementRef
   @ViewChild("deleteModal", { static: false }) deleteModal: ElementRef
-  editForm :FormGroup;
+  editForm: FormGroup;
   title: any;
   Header: any;
-  AncillaryServices=["Meals","Small Meals","Baggage","Drinks","Water","Perfume","Snacks","Pizza","Chocolates"]
+  AncillaryServices = ["Meals", "Small Meals", "Baggage", "Drinks", "Water", "Perfume", "Snacks", "Pizza", "Chocolates"]
 
- 
+
   constructor(private service: AppService, private fb: FormBuilder) { }
   ngOnInit(): void {
     this.editForm = this.fb.group({
@@ -29,38 +29,52 @@ export class DashboardComponent implements OnInit {
       'address': ['', Validators.required]
     })
     this.getTable_data();
-   
+
   }
- 
-  getTable_data(){
-    this.service.getDashboard_data().subscribe(data =>{
+
+  getTable_data() {
+    this.service.getDashboard_data().subscribe(data => {
       console.log(data);
       this.passenger_data = data;
     })
   }
- 
-  editData(){
+
+  editData() {
     this.Header = "Update Passenger Data"
     this.title = "Edit Passenger"
     this.editModal.nativeElement.click();
   }
-  addData(){
+  addData() {
     this.Header = "Add Passenger Data"
     this.title = "Add Passenger"
   }
-  AddorEdit(){
-    if(this.editForm.valid){
-          console.log(this.editForm)
-        } else {
-          for (var landingformvalues in this.editForm.controls) {
-            this.editForm.controls[landingformvalues].markAllAsTouched();
-          }
-        }
+  AddorEdit() {
+    if (this.editForm.valid) {
+      console.log(this.editForm)
+
+      this.passenger_data.push({"flightName":"Indigo", 
+      "passengerName": this.editForm.value.name, 
+      "seatNumber":"5A", 
+      "address":this.editForm.value.address, 
+      "dob": this.editForm.value.dob, 
+      "passportNumber": this.editForm.value.number, 
+      "services": this.editForm.value.services,
+      "type": "infant"})
+
+      this.editModal.nativeElement.click();
+      this.editForm.reset()
+    
+
+    } else {
+      for (var landingformvalues in this.editForm.controls) {
+        this.editForm.controls[landingformvalues].markAllAsTouched();
+      }
+    }
   }
-  close(){
+  close() {
     this.editForm.reset()
   }
-  deleteData(){
+  deleteData() {
     this.deleteModal.nativeElement.click();
   }
 }
