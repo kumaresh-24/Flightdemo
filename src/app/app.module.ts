@@ -11,6 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AdminModule } from './admin/admin.module';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,7 +24,8 @@ import { AdminModule } from './admin/admin.module';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    AdminModule
+    AdminModule,
+    
   ],
   providers: [],
   bootstrap: [AppComponent]
