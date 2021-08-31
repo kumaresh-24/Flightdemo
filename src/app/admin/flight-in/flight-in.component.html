@@ -1,31 +1,6 @@
 <div class="container">
   <div class="row">
-    <div class="col-lg-2 ">
-      <table style="margin-top: 300px;">
-        <tr>
-          <td>Flight Number</td>
-          <td>:</td>
-          <td>{{flightdetails?.FlightNumber}}</td>
-        </tr>
-        <tr>
-          <td>Source</td>
-          <td>:</td>
-          <td>{{flightdetails?.Source}}</td>
-        </tr>
-        <tr>
-          <td>Destination</td>
-          <td>:</td>
-          <td>{{flightdetails?.Destination}}</td>
-        </tr>
-        <tr>
-          <td>Airlines</td>
-          <td>:</td>
-          <td>{{flightdetails?.Airlines}}</td>
-        </tr>
 
-
-      </table>
-    </div>
     <div class="col-lg-4 subcontainer">
       <div class="plane">
         <div class="cockpit">
@@ -37,7 +12,7 @@
             <ol class="seats" type="A" *ngFor="let seats of flightSeatsSequence; let i = index;">
               <li class="seat" *ngFor="let seat of seats"  (click)="getSelectedSeat(seat)">
                 <input type="checkbox" id="{{seat}}" [ngClass]="{'infantpassenger': checkPassengerType(seat)=='infant',
-                'wheelchairpassenger': checkPassengerType(seat)=='Wheel chair', 'normalpassenger': checkPassengerType(seat)=='none'}" />
+                'wheelchairpassenger': checkPassengerType(seat)=='wheel-chair', 'normalpassenger': checkPassengerType(seat)=='none'}" />
                 <label for="seat">{{seat}}</label>
               </li>
             </ol>
@@ -46,7 +21,18 @@
         <div class="exit exit--back fuselage"></div>
       </div>
     </div>
-    <div class="col-lg-5">
+    <div class="col-lg-7 float-right">
+      <div class="row">
+        <div class="col-sm-3">
+          <table class=" table">
+            <tr  *ngFor="let data of seatcolorcode">
+              <th style="border: none;">{{data.type}}</th>
+              <td class="colorbar" [ngStyle]="{'background-color': data.color}"></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
       <table class="table table-striped">
         <thead>
           <tr>
