@@ -48,6 +48,7 @@ export class FlightInComponent implements OnInit {
     this.service.getDashboard_data().subscribe(data =>{
       console.log(data);
       this.passenger_data = data;
+      console.log(this.passenger_data)
     })
   }
 
