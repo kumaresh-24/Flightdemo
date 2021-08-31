@@ -10,11 +10,12 @@ import { DataTablesModule } from "angular-datatables";
 import { AngularMyDatePickerModule } from 'angular-mydatepicker';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import {NgxPaginationModule} from 'ngx-pagination';
+import { InFlightComponent } from './in-flight/in-flight.component';
 
 
 
 @NgModule({
-  declarations: [DashboardComponent, CheckInComponent, FlightInComponent],
+  declarations: [DashboardComponent, CheckInComponent, FlightInComponent, InFlightComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,

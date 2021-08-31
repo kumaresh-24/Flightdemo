@@ -1,0 +1,120 @@
+<div class="container">
+    <div class="row">
+
+        <div class="col-lg-6">
+            <div class="plane">
+                <div class="cockpit">
+                    <h1>Meals Selection</h1>
+                </div>
+                <div class="exit exit--front fuselage"></div>
+                <ol class="cabin fuselage">
+                    <li class="row row--1">
+                        <ol class="seats" type="A" *ngFor="let seats of flightSeatsSequence; let i = index;">
+                            <li class="seat" *ngFor="let seat of seats">
+                                <input type="checkbox" id="{{seat}}" 
+                                [ngClass]="{'meals': checkPassengerMeals(seat)=='Yes','specialmeals': checkPassengerSmallMeals(seat)=='Yes'}"/>
+                                <label for="seat" (click)="openModal()">{{seat}}</label>
+                            </li>
+                        </ol>
+                    </li>
+                </ol>
+                <div class="exit exit--back fuselage"></div>
+            </div>
+        </div>
+        <div class="col-lg-6" style="margin-top:-65px;">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Seat Number</th>
+                        <th>Ancillary Services</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <ng-container
+                        *ngFor="let passenger of passengers | paginate: { itemsPerPage: 5, currentPage: p };let i = index">
+                        <tr>
+                            <td>{{passenger.passengerName}}</td>
+                            <td>{{passenger.seatNumber}}</td>
+                            <td>{{passenger.services}}</td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+
+            </table>
+            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+            
+        </div>
+    </div>
+</div>
+
+
+
+<!-- modal for anicilary services -->
+<button type="button" [hidden]="true" class="btn btn-primary text-uppercase" data-toggle="modal"
+  data-target="#seatModal" #seatModal>Modal</button>
+
+<div class="modal Product_modal" data-backdrop="static" id="seatModal" tabindex="-1" role="dialog"
+  aria-labelledby="instructionModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="h5 mb-2 fontt-16B">Ancillary Services</h1>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="editForm">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="vass-label">Name<span style="color: tomato;">*</span></label>
+                <input type="text" class="form-control" formControlName="name" />
+                <div class="validationstyle"
+                  *ngIf="!editForm.controls['name'].valid && (editForm.controls['name']?.touched || editForm.controls['name']?.dirty)">
+                  <div [hidden]="!editForm.controls['name'].hasError('required')">
+                    Please enter your name
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+            
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="vass-label">Ancillary Services: <span style="color: tomato;">*</span></label>
+
+                <ng-multiselect-dropdown [settings]="dropdownSettings" [data]="dropdownList" formControlName="services"
+                  (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+                </ng-multiselect-dropdown>
+
+
+                <div class="validationstyle"
+                  *ngIf="!editForm.controls['services'].valid && (editForm.controls['services']?.touched || editForm.controls['services']?.dirty)">
+                  <div [hidden]="!editForm.controls['services'].hasError('required')">
+                    Select ancillary services
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div><br>
+
+
+          <div class="col-sm-12 text-center">
+            <button type="submit" class="btn btn-primary" (click)="AddorEdit()">+ ADD</button>
+          </div>
+          <ng-template #updatedata>
+            <div class="col-sm-12 text-center">
+              <button type="submit" class="btn btn-primary" (click)="editdata()">{{title}}</button>
+            </div>
+          </ng-template>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AppService } from 'src/app/services/app.service';
 import {IAngularMyDpOptions, IMyDateModel} from 'angular-mydatepicker';
+import { data } from 'jquery';
 
 
 
@@ -49,7 +50,7 @@ export class DashboardComponent implements OnInit {
 
 
 
-  constructor(private service: AppService, private fb: FormBuilder) { }
+  constructor(private service: AppService, private fb: FormBuilder,private router: Router) { }
   ngOnInit(): void {
     this.dtOptions = {
       pagingType: 'full',
@@ -203,6 +204,7 @@ export class DashboardComponent implements OnInit {
     this.filteredData.splice(this.delete_index,1)
 
   }
+
 
 }
 
