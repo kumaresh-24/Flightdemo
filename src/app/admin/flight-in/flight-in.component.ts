@@ -31,6 +31,12 @@ export class FlightInComponent implements OnInit {
   flightdetails: any;
   passenger_data: any=[];
   selectedseat: any;
+  seatcolorcode =[
+    { type : 'Wheel Chair', color: 'rgb(235, 235, 46)'},
+    { type : 'Booked', color: ' #bada55'},
+    { type : 'Infant', color: 'rgb(71, 198, 230)'},
+    { type : 'Vaccent', color: '#e94d5a'},
+  ]
 
   constructor(private service: AppService, private router: Router) { }
 
