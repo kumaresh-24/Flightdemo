@@ -30,6 +30,7 @@ export class InFlightComponent implements OnInit {
     ['8A', '8B', '8C', '8D', '8E', '8F'],
   ]
   mealseat: any;
+  selectedmeal: any;
 
   constructor(private service: AppService, private fb: FormBuilder,private router: Router) { }
 
@@ -76,10 +77,10 @@ export class InFlightComponent implements OnInit {
     this.editForm.reset()
   }
 
-  openModal(){
-    console.log("hi")
-    this.seatModal.nativeElement.click()
-  }
+  // openModal(){
+  //   console.log("hi")
+  //   this.seatModal.nativeElement.click()
+  // }
   AddorEdit() {
 
     if (this.editForm.valid) {
@@ -100,6 +101,55 @@ export class InFlightComponent implements OnInit {
       for (var landingformvalues in this.editForm.controls) {
         this.editForm.controls[landingformvalues].markAllAsTouched();
       }
+    }
+  }
+
+  
+  onItemSelect(item: any) {
+    console.log(item);
+  }
+  onSelectAll(items: any) {
+    console.log(items);
+  }
+
+  getSelectedMeal(seat){
+    this.selectedmeal = seat;
+    if(this.checkPassengerMeals(this.selectedmeal) != null){
+     if( confirm("Meal is already opted. Are you sure you want to remove this meal?")){
+      this.passengers = this.passengers.filter(x=>{
+
+        if( x.seatNumber == seat){
+          x.seatNumber = ""
+        }
+        return x;
+     })
+    }
+    }else{
+      this.seatModal.nativeElement.click()
+    }
+  }
+
+  AddMeals(i){
+    var selectedmeals = this.passengers.filter(x=>x.passengerName == i)
+
+    if(selectedmeals.length != 0){
+        if(selectedmeals[0].seatNumber ==""){
+          this.passengers = this.passengers.filter(x=>{
+            return x.seatNumber = x.passengerName == i ? this.selectedmeal : x.seatNumber
+          })
+          this.seatModal.nativeElement.click()
+        }else{
+          if(confirm("Meal is already opted by user. Are you sure to remove meal " + selectedmeals[0].seatNumber
+          + " and allocate meal " + this.selectedmeal)){
+            this.passengers = this.passengers.filter(x=>{
+              return x.seatNumber = x.passengerName == i ? this.selectedmeal : x.seatNumber
+            })
+          }else{
+            this.seatModal.nativeElement.click()
+          }
+        }
+    }else{
+      alert("Invalid Action!")
     }
   }
 }

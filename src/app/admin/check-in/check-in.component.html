@@ -28,7 +28,8 @@
          <td>{{flight.Destination}}</td>
          <td>{{flight.DepartureTime}}</td>
           <td>{{flight.ArrivalTime}}</td>
-          <td (click)="showFlight(flight)"><button class="btn btn-primary btn-sm">View Flight</button> </td>
+          <td (click)="showFlight(flight)"><button class="btn btn-primary btn-sm">View Flight</button>&nbsp;
+            <button type="button" class="btn btn-primary btn-sm" routerLink="/in-flight">In Flight</button> </td>
         </tr>
     </tbody>
   </table>

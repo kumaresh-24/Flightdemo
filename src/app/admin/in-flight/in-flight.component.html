@@ -10,10 +10,10 @@
                 <ol class="cabin fuselage">
                     <li class="row row--1">
                         <ol class="seats" type="A" *ngFor="let seats of flightSeatsSequence; let i = index;">
-                            <li class="seat" *ngFor="let seat of seats">
+                            <li class="seat" *ngFor="let seat of seats" (click)="getSelectedMeal(seat)">
                                 <input type="checkbox" id="{{seat}}" 
                                 [ngClass]="{'meals': checkPassengerMeals(seat)=='Yes','specialmeals': checkPassengerSmallMeals(seat)=='Yes'}"/>
-                                <label for="seat" (click)="openModal()">{{seat}}</label>
+                                <label for="seat">{{seat}}</label>
                             </li>
                         </ol>
                     </li>
@@ -66,30 +66,16 @@
       </div>
       <div class="modal-body">
         <form [formGroup]="editForm">
-          <div class="row">
-            <div class="col-sm-12">
-              <div class="form-group">
-                <label class="vass-label">Name<span style="color: tomato;">*</span></label>
-                <input type="text" class="form-control" formControlName="name" />
-                <div class="validationstyle"
-                  *ngIf="!editForm.controls['name'].valid && (editForm.controls['name']?.touched || editForm.controls['name']?.dirty)">
-                  <div [hidden]="!editForm.controls['name'].hasError('required')">
-                    Please enter your name
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+       
 
 
-            
           <div class="row">
             <div class="col-sm-12">
               <div class="form-group">
                 <label class="vass-label">Ancillary Services: <span style="color: tomato;">*</span></label>
 
                 <ng-multiselect-dropdown [settings]="dropdownSettings" [data]="dropdownList" formControlName="services"
-                  (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+                  (onSelect)="onItemSelect($event)" #passenger (onSelectAll)="onSelectAll($event)">
                 </ng-multiselect-dropdown>
 
 
@@ -105,7 +91,7 @@
 
 
           <div class="col-sm-12 text-center">
-            <button type="submit" class="btn btn-primary" (click)="AddorEdit()">+ ADD</button>
+            <button type="submit" class="btn btn-primary" (click)="AddMeals(passenger.value)">Save</button>
           </div>
           <ng-template #updatedata>
             <div class="col-sm-12 text-center">
