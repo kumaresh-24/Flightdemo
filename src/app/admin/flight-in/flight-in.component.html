@@ -1,27 +1,6 @@
 <div class="container">
   <div class="row">
-
-    <div class="col-lg-8">
-      <div class="plane">
-        <div class="cockpit">
-          <h1>{{flightdetails?.FlightNumber}} Seat Selection</h1>
-        </div>
-        <div class="exit exit--front fuselage"></div>
-        <ol class="cabin fuselage">
-          <li class="row row--1">
-            <ol class="seats" type="A" *ngFor="let seats of flightSeatsSequence; let i = index;">
-              <li class="seat" *ngFor="let seat of seats" >
-                <input type="checkbox" id="{{seat}}" [ngClass]="{'infantpassenger': checkPassengerType(seat)=='Infant',
-                'wheelchairpassenger': checkPassengerType(seat)=='Wheel-chair', 'normalpassenger': checkPassengerType(seat)=='None'}" />
-                <label for="seat">{{seat}}</label>
-              </li>
-            </ol>
-          </li>
-        </ol>
-        <div class="exit exit--back fuselage"></div>
-      </div>
-    </div>
-    <div class="col-lg-4">
+    <div class="col-lg-2 ">
       <table style="margin-top: 300px;">
         <tr>
           <td>Flight Number</td>
@@ -45,13 +24,83 @@
         </tr>
 
 
-
-
       </table>
-      <button class="btn btn-primary btn-sm" routerLink="/check-in">View Passengers List</button>
+    </div>
+    <div class="col-lg-4 subcontainer">
+      <div class="plane">
+        <div class="cockpit">
+          <h1>{{flightdetails?.FlightNumber}} Seat Selection</h1>
+        </div>
+        <div class="exit exit--front fuselage"></div>
+        <ol class="cabin fuselage">
+          <li class="row row--1">
+            <ol class="seats" type="A" *ngFor="let seats of flightSeatsSequence; let i = index;">
+              <li class="seat" *ngFor="let seat of seats"  (click)="getSelectedSeat(seat)">
+                <input type="checkbox" id="{{seat}}" [ngClass]="{'infantpassenger': checkPassengerType(seat)=='infant',
+                'wheelchairpassenger': checkPassengerType(seat)=='Wheel chair', 'normalpassenger': checkPassengerType(seat)=='none'}" />
+                <label for="seat">{{seat}}</label>
+              </li>
+            </ol>
+          </li>
+        </ol>
+        <div class="exit exit--back fuselage"></div>
+      </div>
+    </div>
+    <div class="col-lg-5">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Passport Number</th>
+            <th>Date of Birth</th>
+            <th>Flight Name</th>
+            <th>Seat Number</th>
+            <th>Ancillary Services</th>
+            <th>Address</th>
+          </tr>
+
+
+        </thead>
+        <tbody>
+
+          <ng-container *ngFor="let passenger of passenger_data">
+            <tr>
+              <td>{{passenger.passengerName}}</td>
+              <td>{{passenger.passportNumber}}</td>
+              <td>{{passenger.dob}}</td>
+              <td>{{passenger.flightName}}</td>
+              <td>{{passenger.seatNumber}}</td>
+              <td>{{passenger.services}}</td>
+              <td>{{passenger.address}}</td>
+
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
 
 
+<button hidden data-target="#bookseat" data-toggle="modal" #bookseat></button>
+<div class="modal Product_modal" data-backdrop="static" id="bookseat" tabindex="-1" role="dialog"
+  aria-labelledby="instructionModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="h5 mb-2 fontt-16B"></h1>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body text-center">
+          <input list="browsers" name="browser" id="browser" #passenger>
+    <datalist id="browsers">
+      <ng-container *ngFor="let data of passenger_data">
+        <option value="{{data.passengerName}}">
+      </ng-container>
 
+    </datalist>
+        <button type="submit" class="btn btn-primary" (click)="chekinPassenger(passenger.value)" data-dismiss="modal">Check-In</button>
+      </div>
+    </div>
+  </div>
+</div>
