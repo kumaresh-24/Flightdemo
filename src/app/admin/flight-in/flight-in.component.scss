@@ -232,9 +232,13 @@ ol {
 
 
 .table-striped{
-  margin-top: 200px;
+  margin-top: 100px;
 }
 
+
+.subcontainer{
+  margin: 25px;
+}
 
 .infantpassenger {
   + label {
@@ -248,6 +252,12 @@ ol {
 }
 .normalpassenger{
   + label {
-    background: #bada55;;
+    background: #bada55;
   }
+}
+
+.colorbar{
+  border-radius: 4px;
+  width: 30px;
+  height: 20px;
 }

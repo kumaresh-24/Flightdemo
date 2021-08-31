@@ -30,7 +30,8 @@
       </div>
       <div class="col-sm-2">
         <button type="button" class="btn btn-primary btn-sm add-new" data-toggle="modal" data-target="#editModal"
-          (click)="addData()"><i class="fa fa-plus"></i> Add New</button>
+          (click)="addData()"><i class="fa fa-plus"></i> Add New</button> &nbsp;
+          <button type="button" class="btn btn-primary btn-sm" routerLink="/in-flight">In Flight</button>
       </div>
     </div>
   </div><br>
@@ -62,7 +63,8 @@
           <td>{{passenger.address}}</td>
           <td>
             <i class="far fa-edit" (click)="editData(passenger,i)"></i> &nbsp;
-            <i class="far fa-trash-alt" (click)="deleteData(passenger)"></i>
+            <i class="far fa-trash-alt" (click)="deleteData(passenger)"></i> &nbsp;
+           
           </td>
 
         </tr>
