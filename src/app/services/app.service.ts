@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class AppService {
   flightdetails: any;
+  passengerDetails: any;
 
   constructor(private http: HttpClient) { }
 
