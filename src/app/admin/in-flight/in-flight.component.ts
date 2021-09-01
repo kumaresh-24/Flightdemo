@@ -33,6 +33,10 @@ export class InFlightComponent implements OnInit {
   mealseat: any;
   selectedmeal: any;
   selectedseat: any;
+  seatcolorcode =[
+    { type : 'Meals', color: 'rgb(71, 230, 177)'},
+    { type : 'Small Meals', color: 'rgb(221, 245, 83)'},
+  ]
 
   constructor(private service: AppService, private fb: FormBuilder, private router: Router) { }
 

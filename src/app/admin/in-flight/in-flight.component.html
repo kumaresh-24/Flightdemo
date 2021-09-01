@@ -21,7 +21,17 @@
                 <div class="exit exit--back fuselage"></div>
             </div>
         </div>
-        <div class="col-lg-6" style="margin-top:-65px;">
+        <div class="col-lg-6" >
+          <div class="row">
+            <div class="col-sm-3">
+              <table class=" table" >
+                <tr  *ngFor="let data of seatcolorcode">
+                  <th style="border: none;">{{data.type}}</th>
+                  <td class="colorbar" [ngStyle]="{'background-color': data.color}"></td>
+                </tr>
+              </table>
+            </div>
+          </div>
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -75,7 +85,7 @@
                                 <ng-container *ngFor="let data of passengers">
                                   <option value="{{data.passengerName}}">
                                 </ng-container>
-                          
+
                               </datalist>
                             <div class="validationstyle"
                                 *ngIf="!editForm.controls['name'].valid && (editForm.controls['name']?.touched || editForm.controls['name']?.dirty)">
@@ -92,7 +102,7 @@
                             <label class="vass-label">Seat Number<span style="color: tomato;">*</span></label>
 
                               <input type="text" readonly placeholder="{{selectedseat}}" class="form-control" #passenger>
-                        
+
                             <!-- <div class="validationstyle"
                                 *ngIf="!editForm.controls['name'].valid && (editForm.controls['name']?.touched || editForm.controls['name']?.dirty)">
                                 <div [hidden]="!editForm.controls['name'].hasError('required')">

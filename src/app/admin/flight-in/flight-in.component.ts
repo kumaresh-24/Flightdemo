@@ -35,7 +35,7 @@ export class FlightInComponent implements OnInit {
     { type : 'Wheel Chair', color: 'rgb(235, 235, 46)'},
     { type : 'Booked', color: ' #bada55'},
     { type : 'Infant', color: 'rgb(71, 198, 230)'},
-    { type : 'Vaccent', color: '#e94d5a'},
+    { type : 'Vacant', color: '#e94d5a'},
   ]
   dropdownSettings: { singleSelection: boolean; idField: string; textField: string; itemsShowLimit: number; allowSearchFilter: boolean; };
   dropdownList: { Id: number; Services: string; }[];
