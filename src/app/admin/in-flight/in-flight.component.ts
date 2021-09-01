@@ -38,10 +38,10 @@ export class InFlightComponent implements OnInit {
 
   ngOnInit(): void {
     this.dropdownSettings = {
-      singleSelection: false,
+      singleSelection: true,
       idField: 'Id',
       textField: 'Services',
-      itemsShowLimit: 4,
+      itemsShowLimit: 1,
       allowSearchFilter: true
     };
 
@@ -94,55 +94,46 @@ export class InFlightComponent implements OnInit {
     if (this.checkPassengerMeals(this.selectedseat) == null && this.checkPassengerSmallMeals(this.selectedseat) == null) {
       alert("This seat is not booked by any passenger, so you cannot opt or change your services")
     }
-    else{
-
-    
-    if ( this.checkPassengerSmallMeals(this.selectedseat) == "Yes") {
+    else if ( this.checkPassengerSmallMeals(this.selectedseat) == "Yes") {
       if (confirm("Small Meal is already opted. Are you sure you want to remove this small meal?")) {
         this.passengers = this.passengers.filter(x => {
-       
+
           if (x.seatNumber == seat) {
             var allservices = x.services.split(",")
            allservices = allservices.filter(y=>y != "Small Meals")
-          
+
            x.smallmeals ="No"
            x.services = allservices.toString()
-          
+
           }
-          
+
           return x;
         })
       }
     }
-  
-    if(this.checkPassengerMeals(this.selectedseat) == "Yes"){
+
+    else if(this.checkPassengerMeals(this.selectedseat) == "Yes"){
       if (confirm("Meal is already opted. Are you sure you want to remove this meal?")) {
         this.passengers = this.passengers.filter(x => {
-       
+
           if (x.seatNumber == seat) {
             var allservices = x.services.split(",")
            allservices = allservices.filter(y=>y != "Meals")
-          
+
            x.meals ="No"
            x.services = allservices.toString()
           }
-          this.getSelectedSeat(x)
+
           return x;
         })
       }
     }
 
-    
-    
-        
-    
-  
-  }
-      // else {
-      //   this.seatModal.nativeElement.click()
+      else {
+        this.seatModal.nativeElement.click()
 
-      // }
-  
+      }
+
 
   }
 
@@ -151,10 +142,10 @@ export class InFlightComponent implements OnInit {
      if(this.editForm.valid){
         this.passengers = this.passengers.filter(x => {
           if (x.seatNumber == this.selectedseat) {
-            
+
             this.allservices = x.services.split(",")
-  
-            this.allservices.push(" Small Meals")
+
+            this.allservices.push("Small Meals")
            x.smallmeals ="Yes"
            x.services = this.allservices.join()
 
