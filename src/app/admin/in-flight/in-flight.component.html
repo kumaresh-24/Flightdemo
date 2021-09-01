@@ -10,10 +10,10 @@
                 <ol class="cabin fuselage">
                     <li class="row row--1">
                         <ol class="seats" type="A" *ngFor="let seats of flightSeatsSequence; let i = index;">
-                            <li class="seat" *ngFor="let seat of seats">
-                                <input type="checkbox" id="{{seat}}" 
-                                [ngClass]="{'meals': checkPassengerMeals(seat)=='Yes','specialmeals': checkPassengerSmallMeals(seat)=='Yes'}"/>
-                                <label for="seat" (click)="openModal()">{{seat}}</label>
+                            <li class="seat" *ngFor="let seat of seats" (click)="getSelectedSeat(seat)">
+                                <input type="checkbox" id="{{seat}}"
+                                    [ngClass]="{'meals': checkPassengerMeals(seat)=='Yes','specialmeals': checkPassengerSmallMeals(seat)=='Yes'}" />
+                                <label for="seat">{{seat}}</label>
                             </li>
                         </ol>
                     </li>
@@ -21,7 +21,17 @@
                 <div class="exit exit--back fuselage"></div>
             </div>
         </div>
-        <div class="col-lg-6" style="margin-top:-65px;">
+        <div class="col-lg-6" >
+          <div class="row">
+            <div class="col-sm-3">
+              <table class=" table" >
+                <tr  *ngFor="let data of seatcolorcode">
+                  <th style="border: none;">{{data.type}}</th>
+                  <td class="colorbar" [ngStyle]="{'background-color': data.color}"></td>
+                </tr>
+              </table>
+            </div>
+          </div>
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -45,7 +55,7 @@
 
             </table>
             <pagination-controls (pageChange)="p = $event"></pagination-controls>
-            
+
         </div>
     </div>
 </div>
@@ -54,67 +64,89 @@
 
 <!-- modal for anicilary services -->
 <button type="button" [hidden]="true" class="btn btn-primary text-uppercase" data-toggle="modal"
-  data-target="#seatModal" #seatModal>Modal</button>
+    data-target="#seatModal" #seatModal>Modal</button>
 
 <div class="modal Product_modal" data-backdrop="static" id="seatModal" tabindex="-1" role="dialog"
-  aria-labelledby="instructionModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-md modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="h5 mb-2 fontt-16B">Ancillary Services</h1>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-      </div>
-      <div class="modal-body">
-        <form [formGroup]="editForm">
-          <div class="row">
-            <div class="col-sm-12">
-              <div class="form-group">
-                <label class="vass-label">Name<span style="color: tomato;">*</span></label>
-                <input type="text" class="form-control" formControlName="name" />
-                <div class="validationstyle"
-                  *ngIf="!editForm.controls['name'].valid && (editForm.controls['name']?.touched || editForm.controls['name']?.dirty)">
-                  <div [hidden]="!editForm.controls['name'].hasError('required')">
-                    Please enter your name
-                  </div>
-                </div>
-              </div>
+    aria-labelledby="instructionModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="h5 mb-2 fontt-16B">Ancillary Services</h1>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-          </div>
+            <div class="modal-body">
+                <form [formGroup]="editForm">
+                    <!-- <div class="col-sm-12">
+                        <div class="form-group">
+                            <label class="vass-label">Name<span style="color: tomato;">*</span></label>
+
+                              <input list="browsers" class="form-control" formControlName="name" name="browser" id="browser" #passenger>
+                              <datalist id="browsers">
+                                <ng-container *ngFor="let data of passengers">
+                                  <option value="{{data.passengerName}}">
+                                </ng-container>
+
+                              </datalist>
+                            <div class="validationstyle"
+                                *ngIf="!editForm.controls['name'].valid && (editForm.controls['name']?.touched || editForm.controls['name']?.dirty)">
+                                <div [hidden]="!editForm.controls['name'].hasError('required')">
+                                    Please enter your name
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
 
 
-            
-          <div class="row">
-            <div class="col-sm-12">
-              <div class="form-group">
-                <label class="vass-label">Ancillary Services: <span style="color: tomato;">*</span></label>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label class="vass-label">Seat Number<span style="color: tomato;">*</span></label>
 
-                <ng-multiselect-dropdown [settings]="dropdownSettings" [data]="dropdownList" formControlName="services"
-                  (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
-                </ng-multiselect-dropdown>
+                              <input type="text" readonly placeholder="{{selectedseat}}" class="form-control" #passenger>
+
+                            <!-- <div class="validationstyle"
+                                *ngIf="!editForm.controls['name'].valid && (editForm.controls['name']?.touched || editForm.controls['name']?.dirty)">
+                                <div [hidden]="!editForm.controls['name'].hasError('required')">
+                                    Please enter your name
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
 
 
-                <div class="validationstyle"
-                  *ngIf="!editForm.controls['services'].valid && (editForm.controls['services']?.touched || editForm.controls['services']?.dirty)">
-                  <div [hidden]="!editForm.controls['services'].hasError('required')">
-                    Select ancillary services
-                  </div>
-                </div>
-              </div>
+
+
+                    <!-- <div class="row"> -->
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label class="vass-label">Ancillary Services: <span
+                                        style="color: tomato;">*</span></label>
+
+                                <ng-multiselect-dropdown [settings]="dropdownSettings" [data]="dropdownList"
+                                    formControlName="services" (onSelect)="onItemSelect($event)"
+                                    (onSelectAll)="onSelectAll($event)">
+                                </ng-multiselect-dropdown>
+                                <div class="validationstyle"
+                                    *ngIf="!editForm.controls['services'].valid && (editForm.controls['services']?.touched || editForm.controls['services']?.dirty)">
+                                    <div [hidden]="!editForm.controls['services'].hasError('required')">
+                                        Select ancillary services
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <!-- </div><br> -->
+
+
+                    <div class="col-sm-12 text-center">
+                        <button type="submit" class="btn btn-primary" (click)="AddMeals()">Save</button>
+                    </div>
+                    <ng-template #updatedata>
+                        <div class="col-sm-12 text-center">
+                            <button type="submit" class="btn btn-primary" (click)="editdata()">{{title}}</button>
+                        </div>
+                    </ng-template>
+
+                </form>
             </div>
-          </div><br>
-
-
-          <div class="col-sm-12 text-center">
-            <button type="submit" class="btn btn-primary" (click)="AddorEdit()">+ ADD</button>
-          </div>
-          <ng-template #updatedata>
-            <div class="col-sm-12 text-center">
-              <button type="submit" class="btn btn-primary" (click)="editdata()">{{title}}</button>
-            </div>
-          </ng-template>
-
-        </form>
-      </div>
+        </div>
     </div>
-  </div>
 </div>

@@ -11,13 +11,14 @@ import { AppService } from 'src/app/services/app.service';
 export class InFlightComponent implements OnInit {
 
   @ViewChild("seatModal", { static: false }) seatModal: ElementRef
-  passengers: any[]=[];
+  passengers: any[] = [];
   p: number = 1;
   dropdownSettings = {};
   editForm: FormGroup;
+  allservices: any[]=[]
 
-  dropdownList = [{Id:1,Services: "Meals"},{Id:2,Services:"Small Meals"},{Id:3,Services:"Baggage"},{Id:4,Services:"Drinks"},{Id:5,Services:"Water"},
-  {Id:6,Services: "Perfume"},{Id:7,Services: "Snacks"},{Id:8,Services: "Pizza"},{Id:9,Services: "Chocolates"}];
+  dropdownList = [{ Id: 1, Services: "Meals" }, { Id: 2, Services: "Small Meals" }, { Id: 3, Services: "Baggage" }, { Id: 4, Services: "Drinks" }, { Id: 5, Services: "Water" },
+  { Id: 6, Services: "Perfume" }, { Id: 7, Services: "Snacks" }, { Id: 8, Services: "Pizza" }, { Id: 9, Services: "Chocolates" }];
 
   flightSeatsSequence = [
     ['1A', '1B', '1C', '1D', '1E', '1F'],
@@ -30,76 +31,150 @@ export class InFlightComponent implements OnInit {
     ['8A', '8B', '8C', '8D', '8E', '8F'],
   ]
   mealseat: any;
+  selectedmeal: any;
+  selectedseat: any;
+  seatcolorcode =[
+    { type : 'Meals', color: 'rgb(71, 230, 177)'},
+    { type : 'Small Meals', color: 'rgb(221, 245, 83)'},
+  ]
 
-  constructor(private service: AppService, private fb: FormBuilder,private router: Router) { }
+  constructor(private service: AppService, private fb: FormBuilder, private router: Router) { }
 
   ngOnInit(): void {
     this.dropdownSettings = {
-      singleSelection: false,
+      singleSelection: true,
       idField: 'Id',
       textField: 'Services',
-      itemsShowLimit: 4,
+      itemsShowLimit: 1,
       allowSearchFilter: true
     };
 
     this.editForm = this.fb.group({
-      'name': ['', Validators.required],
-      'number': ['', Validators.required],
-      'dob': ['', Validators.required],
       'services': ['', Validators.required],
-      'address': ['', Validators.required]
     })
 
- this.getPassengers()
-   
+    this.getPassengers()
+
   }
 
-  getPassengers(){
-    this.service.getDashboard_data().subscribe(data=>{
+  getPassengers() {
+    this.service.getDashboard_data().subscribe(data => {
       console.log(data);
       this.passengers = data;
     })
   }
 
-  checkPassengerMeals(seat){
-    
-    var detailsbasedonseat = this.passengers.filter(x=>x.seatNumber == seat)
-    return detailsbasedonseat[0]?.meals;
-  }
-  checkPassengerSmallMeals(seat){
-    
-    var detailsbasedonseat = this.passengers.filter(x=>x.seatNumber == seat)
-    return detailsbasedonseat[0]?.smallmeals;
-  }
 
-  close() {
-    this.editForm.reset()
+  checkPassengerMeals(seat) {
+
+    var detailsbasedonseat = null;
+    var data = this.passengers
+    data.filter(x => {
+      if (x.seatNumber == seat) {
+        detailsbasedonseat = x?.meals
+      }
+    })
+    return detailsbasedonseat;
   }
 
-  openModal(){
-    console.log("hi")
-    this.seatModal.nativeElement.click()
+  checkPassengerSmallMeals(seat) {
+    var detailsbasedonseat = null;
+    var data = this.passengers
+    data.filter(x => {
+      if (x.seatNumber == seat) {
+        detailsbasedonseat = x?.smallmeals
+      }
+    })
+    return detailsbasedonseat;
+
+
   }
-  AddorEdit() {
 
-    if (this.editForm.valid) {
-      console.log(this.editForm.value)
 
-      this.passengers.push({ 
-      "passengerName": this.editForm.value.name, 
-      "services": this.editForm.value.services.map(x => x.Services).toString(),
-     })
-      
-      console.log(this.editForm.value.services)
-      alert('Details Added')
-      this.seatModal.nativeElement.click();
-      this.editForm.reset()
-    
 
-    } else {
+  getSelectedSeat(seat) {
+    this.selectedseat = seat;
+    // console.log(this.checkPassengerMeals(this.selectedseat))
+    if (this.checkPassengerMeals(this.selectedseat) == null && this.checkPassengerSmallMeals(this.selectedseat) == null) {
+      alert("This seat is not booked by any passenger, so you cannot opt or change your services")
+    }
+    else if ( this.checkPassengerSmallMeals(this.selectedseat) == "Yes") {
+      if (confirm("Small Meal is already opted. Are you sure you want to remove this small meal?")) {
+        this.passengers = this.passengers.filter(x => {
+
+          if (x.seatNumber == seat) {
+            var allservices = x.services.split(",")
+           allservices = allservices.filter(y=>y != "Small Meals")
+
+           x.smallmeals ="No"
+           x.services = allservices.toString()
+
+          }
+
+          return x;
+        })
+      }
+    }
+
+    else if(this.checkPassengerMeals(this.selectedseat) == "Yes"){
+      if (confirm("Meal is already opted. Are you sure you want to remove this meal?")) {
+        this.passengers = this.passengers.filter(x => {
+
+          if (x.seatNumber == seat) {
+            var allservices = x.services.split(",")
+           allservices = allservices.filter(y=>y != "Meals")
+
+           x.meals ="No"
+           x.services = allservices.toString()
+          }
+
+          return x;
+        })
+      }
+    }
+
+      else {
+        this.seatModal.nativeElement.click()
+
+      }
+
+
+  }
+
+  AddMeals() {
+    var passengerseat = this.passengers.filter(x => x.seatNumber == this.selectedseat)
+     if(this.editForm.valid){
+        this.passengers = this.passengers.filter(x => {
+          if (x.seatNumber == this.selectedseat) {
+
+            this.allservices = x.services.split(",")
+
+            this.allservices.push("Small Meals")
+           x.smallmeals ="Yes"
+           x.services = this.allservices.join()
+
+          }
+          return x;
+        })
+        this.seatModal.nativeElement.click()
+        this.editForm.reset()
+    }
+    else{
       for (var landingformvalues in this.editForm.controls) {
         this.editForm.controls[landingformvalues].markAllAsTouched();
       }
     }
   }
+
+  onItemSelect(item: any) {
+    // console.log(item);
+  }
+  onSelectAll(items: any) {
+    // console.log(items);
+  }
+  close() {
+    this.editForm.reset()
+  }
+
+
 }
