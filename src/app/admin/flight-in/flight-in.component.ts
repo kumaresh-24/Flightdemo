@@ -94,8 +94,8 @@ export class FlightInComponent implements OnInit {
           })
           this.bookedseat.nativeElement.click()
         }else{
-          if(confirm("Seat is already allocated to user. Are you sure to deallocate seat " + selectedpassenger[0].seatNumber
-          + " and allocate seat " + this.selectedseat)){
+          if(confirm("Seat is already allocated to passenger. Are you sure you want to deallocate seat " + selectedpassenger[0].seatNumber
+          + " and allocate seat " + this.selectedseat + ' to passenger ' + selectedpassenger[0].passengerName +' ?' )){
             this.passenger_data = this.passenger_data.filter(x=>{
               return x.seatNumber = x.passengerName == this.selectedperson ? this.selectedseat : x.seatNumber
             })
@@ -110,7 +110,9 @@ export class FlightInComponent implements OnInit {
 
   getSelectedSeat(seat){
     this.selectedseat = seat;
+
     if(this.checkPassengerType(this.selectedseat) != null){
+
      if( confirm("Seat is already allocated. Are you sure you want to deallocate this seat?")){
       this.passenger_data = this.passenger_data.filter(x=>{
 
@@ -120,6 +122,10 @@ export class FlightInComponent implements OnInit {
         return x;
      })
     }
+
+    }
+    else  if(seat == 'X'){
+      alert("This seat is not available for booking!!")
     }else{
       this.bookedseat.nativeElement.click()
     }
