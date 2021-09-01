@@ -77,15 +77,24 @@
         <h1 class="h5 mb-2 fontt-16B"></h1>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
-      <div class="modal-body text-center">
-          <input list="browsers" name="browser" id="browser" #passenger>
+      <div class="modal-body">
+          <!-- <input list="browsers" name="browser" id="browser" #passenger>
     <datalist id="browsers">
       <ng-container *ngFor="let data of passenger_data">
         <option value="{{data.passengerName}}">
       </ng-container>
 
-    </datalist>
-        <button type="submit" class="btn btn-primary" (click)="chekinPassenger(passenger.value)" data-dismiss="modal">Check-In</button>
+    </datalist> -->
+    <label class="vass-label">Ancillary Services: <span style="color: tomato;">*</span></label>
+
+                <ng-multiselect-dropdown [settings]="dropdownSettings" [data]="dropdownList"
+                  (onSelect)="onPersonSelect($event)" #passenger >
+                </ng-multiselect-dropdown>
+
+      </div>
+
+      <div class="modal-footer ">
+        <button type="submit" class="btn btn-primary text-center" (click)="chekinPassenger()" data-dismiss="modal">Check-In</button>
       </div>
     </div>
   </div>

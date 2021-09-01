@@ -37,11 +37,21 @@ export class FlightInComponent implements OnInit {
     { type : 'Infant', color: 'rgb(71, 198, 230)'},
     { type : 'Vaccent', color: '#e94d5a'},
   ]
+  dropdownSettings: { singleSelection: boolean; idField: string; textField: string; itemsShowLimit: number; allowSearchFilter: boolean; };
+  dropdownList: { Id: number; Services: string; }[];
+  selectedperson: any;
 
   constructor(private service: AppService, private router: Router) { }
 
   ngOnInit(): void {
 
+    this.dropdownSettings = {
+      singleSelection: true,
+      idField: 'Id',
+      textField: 'Services',
+      itemsShowLimit: 1,
+      allowSearchFilter: true
+    };
     this.flightdetails =  this.service.getFlight()
     console.log(this.flightdetails)
     if(this.flightdetails == undefined || this.flightdetails == null){
@@ -55,13 +65,15 @@ export class FlightInComponent implements OnInit {
       console.log(data);
       this.passenger_data = data;
       console.log(this.passenger_data)
+      this.dropdownList = this.passenger_data.map((x, i)=>{
+        return {Id: i,Services: x.passengerName};
+      })
     })
   }
 
 
 
   checkPassengerType(seat){
-    console.log(seat, this.passenger_data)
     var detailsbasedonseat= null;
     var data = this.passenger_data
      data.filter(x=>{
@@ -69,24 +81,23 @@ export class FlightInComponent implements OnInit {
          detailsbasedonseat = x.type
       }
     })
-    console.log(detailsbasedonseat)
     return detailsbasedonseat;
   }
 
-  chekinPassenger(i){
-    var selectedpassenger = this.passenger_data.filter(x=>x.passengerName == i)
+  chekinPassenger(){
+    var selectedpassenger = this.passenger_data.filter(x=>x.passengerName == this.selectedperson)
 
     if(selectedpassenger.length != 0){
         if(selectedpassenger[0].seatNumber ==""){
           this.passenger_data = this.passenger_data.filter(x=>{
-            return x.seatNumber = x.passengerName == i ? this.selectedseat : x.seatNumber
+            return x.seatNumber = x.passengerName == this.selectedperson ? this.selectedseat : x.seatNumber
           })
           this.bookedseat.nativeElement.click()
         }else{
           if(confirm("Seat is already allocated to user. Are you sure to deallocate seat " + selectedpassenger[0].seatNumber
           + " and allocate seat " + this.selectedseat)){
             this.passenger_data = this.passenger_data.filter(x=>{
-              return x.seatNumber = x.passengerName == i ? this.selectedseat : x.seatNumber
+              return x.seatNumber = x.passengerName == this.selectedperson ? this.selectedseat : x.seatNumber
             })
           }else{
             this.bookedseat.nativeElement.click()
@@ -112,6 +123,10 @@ export class FlightInComponent implements OnInit {
     }else{
       this.bookedseat.nativeElement.click()
     }
+  }
+
+  onPersonSelect(e){
+    this.selectedperson = e.Services;
   }
 
 }
