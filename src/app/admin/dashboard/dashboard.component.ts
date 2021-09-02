@@ -20,7 +20,7 @@ export class DashboardComponent implements OnInit {
     dateFormat: 'dd/mm/yyyy'
     // other options are here...
   };
- 
+
 
   passenger_data: any;
   @ViewChild("editModal", { static: false }) editModal: ElementRef
@@ -29,9 +29,9 @@ export class DashboardComponent implements OnInit {
   title: any;
   Header: any;
   AncillaryServices = ["Meals", "Small Meals", "Baggage", "Drinks", "Water", "Perfume", "Snacks", "Pizza", "Chocolates"]
-  
-  
-  
+
+
+
   dropdownList = [{Id:1,Services: "Meals"},{Id:2,Services:"Small Meals"},{Id:3,Services:"Baggage"},{Id:4,Services:"Drinks"},{Id:5,Services:"Water"},
   {Id:6,Services: "Perfume"},{Id:7,Services: "Snacks"},{Id:8,Services: "Pizza"},{Id:9,Services: "Chocolates"}];
   allfields: boolean;
@@ -75,7 +75,7 @@ export class DashboardComponent implements OnInit {
       'address': ['', Validators.required]
     })
     this.getTable_data();
-  
+
 
   }
 
@@ -87,7 +87,7 @@ export class DashboardComponent implements OnInit {
     console.log(e)
     this.flightnumber = e
     this.getTable_data()
-      
+
   }
 
   getTable_data() {
@@ -102,12 +102,12 @@ export class DashboardComponent implements OnInit {
           console.log(this.filteredData)
           }
         })
-        
+
       }
       else{
         this.filteredData= this.passenger_data
       }
-      
+
     })
   }
 
@@ -119,12 +119,12 @@ export class DashboardComponent implements OnInit {
     this.current_index = this.passenger_data.findIndex(x => x.passportNumber == e.passportNumber );
 
     console.log(this.passenger_data)
-    
+
     this.editForm.patchValue({
 
       'name': e.passengerName,
       'number': e.passportNumber,
-      'dob': e.dob,
+      'dob': this.formatDate(new Date(e.dob)),
       'services':e.services.split(','),
       'address': e.address
     })
@@ -139,20 +139,20 @@ export class DashboardComponent implements OnInit {
     if (this.editForm.valid) {
       console.log(this.editForm.value)
 
-      this.passenger_data.push({"flightName":"Indigo", 
-      "passengerName": this.editForm.value.name, 
-      "seatNumber":"5A", 
-      "address":this.editForm.value.address, 
-      "dob": this.editForm.value.dob.singleDate.formatted, 
-      "passportNumber": this.editForm.value.number, 
+      this.passenger_data.push({"flightName":"Indigo",
+      "passengerName": this.editForm.value.name,
+      "seatNumber":"5A",
+      "address":this.editForm.value.address,
+      "dob":this.formatDate(this.editForm.value.dob),
+      "passportNumber": this.editForm.value.number,
       "services": this.editForm.value.services.map(x => x.Services).toString(),
       "type": "infant"})
-      
+
       console.log(this.editForm.value.services)
       alert('Details Added')
       this.editModal.nativeElement.click();
       this.editForm.reset()
-    
+
 
     } else {
       for (var landingformvalues in this.editForm.controls) {
@@ -177,32 +177,49 @@ export class DashboardComponent implements OnInit {
 
   editdata(){
 
-    
+
     if (this.editForm.valid) {
       console.log(this.editForm.value)
       this.passenger_data[this.current_index].passengerName = this.editForm.value.name
       this.passenger_data[this.current_index].address=this.editForm.value.address
       this.passenger_data[this.current_index].dob =  this.editForm.value.dob
-      this.passenger_data[this.current_index].services =  this.editForm.value.services 
+      this.passenger_data[this.current_index].services =  this.editForm.value.services
       this.passenger_data[this.current_index].passportNumber =  this.editForm.value.number
-  
+
       this.editModal.nativeElement.click()
       alert('Details Updated')
       this.editForm.reset()
-    
+
 
     } else {
       for (var landingformvalues in this.editForm.controls) {
         this.editForm.controls[landingformvalues].markAllAsTouched();
       }
     }
-  
+
   }
-  
+
   deleteuser(){
-    
+
     this.filteredData.splice(this.delete_index,1)
 
+  }
+
+  getDate(e){
+    console.log(e.target.value)
+    this.editForm.patchValue({
+      'dob' : this.formatDate(new Date(e.target.value))
+    })
+  }
+
+ formatDate(date) {
+    const d = new Date(date);
+    let month = '' + (d.getMonth() + 1);
+    let day = '' + d.getDate();
+    const year = d.getFullYear();
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+    return [year, month, day].join('-');
   }
 
 
